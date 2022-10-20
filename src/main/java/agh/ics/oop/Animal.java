@@ -3,8 +3,15 @@ package agh.ics.oop;
 public class Animal {
     private Vector2d position = new Vector2d(2,2);
     private MapDirection orientation = MapDirection.NORTH;
-    private final Vector2d upperRightBoundary = new Vector2d(4,4);
-    private final Vector2d lowerLeftBoundary = new Vector2d(0,0);
+    private final IWorldMap map;
+    public Animal(IWorldMap map) {
+        this.map = map;
+    }
+
+    public Animal(IWorldMap map, Vector2d initialPosition) {
+        this.map = map;
+        this.position = initialPosition;
+    }
 
     @Override
     public String toString() {
@@ -19,12 +26,18 @@ public class Animal {
         switch (direction) {
             case RIGHT -> this.orientation = this.orientation.next();
             case LEFT -> this.orientation = this.orientation.previous();
-            case FORWARD -> this.position =  this.position.add(this.orientation.toUnitVector())
-                    .lowerLeft(this.upperRightBoundary)
-                    .upperRight(this.lowerLeftBoundary);
-            case BACKWARD -> this.position =  this.position.subtract(this.orientation.toUnitVector())
-                    .lowerLeft(this.upperRightBoundary)
-                    .upperRight(this.lowerLeftBoundary);
+            case FORWARD -> {
+                Vector2d new_pos = this.position.add(this.orientation.toUnitVector());
+                if (this.map.canMoveTo(new_pos)) {
+                    this.position = new_pos;
+                }
+            }
+            case BACKWARD -> {
+                Vector2d new_pos = this.position.subtract(this.orientation.toUnitVector());
+                if (this.map.canMoveTo(new_pos)) {
+                    this.position = new_pos;
+                }
+            }
         }
     }
 }

@@ -121,7 +121,7 @@ public class Vector2dTest {
         Vector2d vec2 = new Vector2d(-110, 82);
         // when
         Vector2d vec1_op = vec1.opposite();
-        Vector2d vec2_op = vec1.opposite();
+        Vector2d vec2_op = vec2.opposite();
         // then
         assertTrue(vec1_op.equals(new Vector2d(-10, -17)));
         assertTrue(vec2_op.equals(new Vector2d(110, -82)));

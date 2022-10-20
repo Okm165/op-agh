@@ -8,7 +8,7 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "pos: %s, orient: %s".formatted(position, orientation);
+        return "position: %s, orientation: %s".formatted(position.toString(), orientation.toString());
     }
 
     public boolean isAt(Vector2d position) {

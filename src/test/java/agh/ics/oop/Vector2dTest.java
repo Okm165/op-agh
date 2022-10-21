@@ -1,14 +1,15 @@
 package agh.ics.oop;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class Vector2dTest {
     @Test
     void convertToString() {
         // given
-        Vector2d v1 = new Vector2d(10,12);
-        Vector2d v2 = new Vector2d(-110,24);
+        Vector2d v1 = new Vector2d(10, 12);
+        Vector2d v2 = new Vector2d(-110, 24);
         // when
         String v1_str = v1.toString();
         String v2_str = v2.toString();
@@ -20,16 +21,16 @@ public class Vector2dTest {
     @Test
     void equals() {
         // given
-        Vector2d vec0 = new Vector2d(10,12);
+        Vector2d vec0 = new Vector2d(10, 12);
         // then
-        assertTrue(vec0.equals(new Vector2d(10,12)));
-        assertFalse(vec0.equals(new Vector2d(-10,12)));
-        assertFalse(vec0.equals(new Vector2d(10,11)));
-        assertFalse(vec0.equals(new Vector2d(9,11)));
+        assertEquals(vec0, new Vector2d(10, 12));
+        assertNotEquals(vec0, new Vector2d(-10, 12));
+        assertNotEquals(vec0, new Vector2d(10, 11));
+        assertNotEquals(vec0, new Vector2d(9, 11));
     }
 
     @Test
-    void precedes () {
+    void precedes() {
         // given
         Vector2d vec1 = new Vector2d(10, 17);
         // then
@@ -42,7 +43,7 @@ public class Vector2dTest {
     }
 
     @Test
-    void follows () {
+    void follows() {
         // given
         Vector2d vec1 = new Vector2d(10, 17);
         // then
@@ -55,7 +56,7 @@ public class Vector2dTest {
     }
 
     @Test
-    void add () {
+    void add() {
         // given
         Vector2d vec1 = new Vector2d(10, 17);
         Vector2d vec2 = new Vector2d(13, 9);
@@ -65,12 +66,12 @@ public class Vector2dTest {
         Vector2d vec1_add_vec2 = vec1.add(vec2);
         Vector2d vec3_add_vec4 = vec3.add(vec4);
         // then
-        assertTrue(vec1_add_vec2.equals(new Vector2d(23,26)));
-        assertTrue(vec3_add_vec4.equals(new Vector2d(-1,99)));
+        assertEquals(vec1_add_vec2, new Vector2d(23, 26));
+        assertEquals(vec3_add_vec4, new Vector2d(-1, 99));
     }
 
     @Test
-    void subtract () {
+    void subtract() {
         // given
         Vector2d vec1 = new Vector2d(10, 17);
         Vector2d vec2 = new Vector2d(13, 9);
@@ -80,12 +81,12 @@ public class Vector2dTest {
         Vector2d vec1_sub_vec2 = vec1.subtract(vec2);
         Vector2d vec3_sub_vec4 = vec3.subtract(vec4);
         // then
-        assertTrue(vec1_sub_vec2.equals(new Vector2d(-3, 8)));
-        assertTrue(vec3_sub_vec4.equals(new Vector2d(-21, 65)));
+        assertEquals(vec1_sub_vec2, new Vector2d(-3, 8));
+        assertEquals(vec3_sub_vec4, new Vector2d(-21, 65));
     }
 
     @Test
-    void upperRight () {
+    void upperRight() {
         // given
         Vector2d vec1 = new Vector2d(10, 17);
         Vector2d vec2 = new Vector2d(13, 9);
@@ -95,12 +96,12 @@ public class Vector2dTest {
         Vector2d vec1_vec2_ur = vec1.upperRight(vec2);
         Vector2d vec3_vec4_ur = vec3.upperRight(vec4);
         // then
-        assertTrue(vec1_vec2_ur.equals(new Vector2d(13, 17)));
-        assertTrue(vec3_vec4_ur.equals(new Vector2d(110, 82)));
+        assertEquals(vec1_vec2_ur, new Vector2d(13, 17));
+        assertEquals(vec3_vec4_ur, new Vector2d(110, 82));
     }
 
     @Test
-    void lowerLeft () {
+    void lowerLeft() {
         // given
         Vector2d vec1 = new Vector2d(10, 17);
         Vector2d vec2 = new Vector2d(13, 9);
@@ -110,12 +111,12 @@ public class Vector2dTest {
         Vector2d vec1_vec2_ll = vec1.lowerLeft(vec2);
         Vector2d vec3_vec4_ll = vec3.lowerLeft(vec4);
         // then
-        assertTrue(vec1_vec2_ll.equals(new Vector2d(10,9)));
-        assertTrue(vec3_vec4_ll.equals(new Vector2d(10,17)));
+        assertEquals(vec1_vec2_ll, new Vector2d(10, 9));
+        assertEquals(vec3_vec4_ll, new Vector2d(10, 17));
     }
 
     @Test
-    void opposite () {
+    void opposite() {
         // given
         Vector2d vec1 = new Vector2d(10, 17);
         Vector2d vec2 = new Vector2d(-110, 82);
@@ -123,7 +124,7 @@ public class Vector2dTest {
         Vector2d vec1_op = vec1.opposite();
         Vector2d vec2_op = vec2.opposite();
         // then
-        assertTrue(vec1_op.equals(new Vector2d(-10, -17)));
-        assertTrue(vec2_op.equals(new Vector2d(110, -82)));
+        assertEquals(vec1_op, new Vector2d(-10, -17));
+        assertEquals(vec2_op, new Vector2d(110, -82));
     }
 }

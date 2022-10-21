@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MapDirectionTest {
@@ -15,7 +16,8 @@ public class MapDirectionTest {
         MapDirection direction_nnnn = direction_nnn.next();
         // then
         assertEquals(MapDirection.EAST, direction_n);
-        assertEquals(MapDirection.SOUTH, direction_nn);;
+        assertEquals(MapDirection.SOUTH, direction_nn);
+        ;
         assertEquals(MapDirection.WEST, direction_nnn);
         assertEquals(MapDirection.NORTH, direction_nnnn);
     }
@@ -49,10 +51,10 @@ public class MapDirectionTest {
         Vector2d direction_s_unit = direction_s.toUnitVector();
         Vector2d direction_w_unit = direction_w.toUnitVector();
         // then
-        assertEquals(new Vector2d(0,1), direction_n_unit);
-        assertEquals(new Vector2d(1,0), direction_e_unit);
-        assertEquals(new Vector2d(0,-1), direction_s_unit);
-        assertEquals(new Vector2d(-1,0), direction_w_unit);
+        assertEquals(new Vector2d(0, 1), direction_n_unit);
+        assertEquals(new Vector2d(1, 0), direction_e_unit);
+        assertEquals(new Vector2d(0, -1), direction_s_unit);
+        assertEquals(new Vector2d(-1, 0), direction_w_unit);
     }
 
 }

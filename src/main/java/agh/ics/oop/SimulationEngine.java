@@ -2,7 +2,7 @@ package agh.ics.oop;
 
 public class SimulationEngine implements IEngine {
 
-    private final MoveDirection[] directions;
+    private final MoveDirection[] DIRECTIONS;
     private final IWorldMap map;
 
     public SimulationEngine(MoveDirection[] directions, IWorldMap map, Vector2d[] initial_positions) {
@@ -11,13 +11,13 @@ public class SimulationEngine implements IEngine {
             map.place(animal);
         }
         this.map = map;
-        this.directions = directions;
+        this.DIRECTIONS = directions;
     }
 
     @Override
     public void run() {
         int index = 0;
-        for (MoveDirection direction : this.directions) {
+        for (MoveDirection direction : this.DIRECTIONS) {
             map.get(index).move(direction);
             index = (index + 1) % this.map.numOfAnimals();
         }

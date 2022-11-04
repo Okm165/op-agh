@@ -1,21 +1,24 @@
 package agh.ics.oop;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RectangularMap implements IWorldMap {
-    final private int width;
-    final private int height;
-    private final List<Animal> animals = new ArrayList<>();
+    public final int WIDTH;
+    public final int HEIGHT;
+    public final Vector2d ORIGIN;
+    public final Vector2d BOUNDARY;
+    private final ArrayList<Animal> animals = new ArrayList<>();
 
     public RectangularMap(int width, int height) {
-        this.width = width;
-        this.height = height;
+        this.WIDTH = width;
+        this.HEIGHT = height;
+        this.ORIGIN = new Vector2d(0,0);
+        this.BOUNDARY = new Vector2d(this.WIDTH,this.HEIGHT);
     }
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return position.x <= this.width && position.x >= 0 && position.y <= this.height && position.y >= 0;
+        return position.follows(this.ORIGIN) && position.precedes(this.BOUNDARY);
     }
 
     @Override
@@ -40,10 +43,7 @@ public class RectangularMap implements IWorldMap {
 
     @Override
     public String toString() {
-        return new MapVisualizer(this).draw(
-                new Vector2d(0, 0),
-                new Vector2d(this.width, this.height)
-        );
+        return new MapVisualizer(this).draw(this.ORIGIN, this.BOUNDARY);
     }
 
     @Override

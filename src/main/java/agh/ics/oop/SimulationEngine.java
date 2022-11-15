@@ -3,17 +3,18 @@ package agh.ics.oop;
 public class SimulationEngine implements IEngine {
 
     private final MoveDirection[] directions;
-    private final IWorldMap map;
+    private final AbstractWorldMap map;
 
-    public SimulationEngine(MoveDirection[] directions, IWorldMap map, Vector2d[] initialPositions) {
+    public SimulationEngine(MoveDirection[] directions, AbstractWorldMap map, Vector2d[] initialPositions) {
         this.map = map;
         this.directions = directions;
         placeAnimals(map, initialPositions);
     }
 
-    private static void placeAnimals(IWorldMap map, Vector2d[] initialPositions) {
+    private static void placeAnimals(AbstractWorldMap map, Vector2d[] initialPositions) {
         for (Vector2d initialPosition : initialPositions) {
             Animal animal = new Animal(map, initialPosition);
+            animal.addObserver(map);
             map.place(animal);
         }
     }

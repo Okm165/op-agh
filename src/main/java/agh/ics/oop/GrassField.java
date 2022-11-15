@@ -1,13 +1,13 @@
 package agh.ics.oop;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
 public class GrassField extends AbstractWorldMap{
 
     private final int grassnum;
-    public final ArrayList<Grass> grass = new ArrayList<>();
-    public BoundingRect rect;
 
     public GrassField(int grassNum) {
         this.grassnum = grassNum;
@@ -19,13 +19,6 @@ public class GrassField extends AbstractWorldMap{
         return !(objectAt(position) instanceof Animal);
     }
 
-    public Object objectAt(Vector2d position) {
-        return Stream.concat(this.animals.stream(), this.grass.stream())
-                .filter(element -> element.isAt(position))
-                .findFirst()
-                .orElse(null);
-    }
-
     private void randomizeGrass() {
         int range = (int) Math.round(Math.sqrt(this.grassnum *10));
         int cnt = this.grassnum;
@@ -34,8 +27,8 @@ public class GrassField extends AbstractWorldMap{
             int ry = getRandomNumber(range);
             Vector2d pos = new Vector2d(rx, ry);
             if (!isOccupied(pos)) {
+                this.mapElements.put(pos, new Grass(pos));
                 cnt -= 1;
-                this.grass.add(new Grass(pos));
             }
         }
     }
@@ -45,16 +38,12 @@ public class GrassField extends AbstractWorldMap{
     }
 
     public BoundingRect boundingRect() {
-        rect.lowerLeftCorner = this.animals.get(0).getPosition();
-        rect.upperRightCorner = this.animals.get(0).getPosition();
-        for (Animal animal : this.animals) {
-            rect.lowerLeftCorner = rect.lowerLeftCorner.lowerLeft(animal.getPosition());
-            rect.upperRightCorner = rect.upperRightCorner.upperRight(animal.getPosition());
-        }
-        for (Grass grass : this.grass) {
-            rect.lowerLeftCorner = rect.lowerLeftCorner.lowerLeft(grass.getPosition());
-            rect.upperRightCorner = rect.upperRightCorner.upperRight(grass.getPosition());
-        }
+        rect.lowerLeftCorner = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        rect.upperRightCorner = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
+        this.mapElements.forEach((pos, elem) -> {
+            rect.lowerLeftCorner = rect.lowerLeftCorner.lowerLeft(pos);
+            rect.upperRightCorner = rect.upperRightCorner.upperRight(pos);
+        });
         return rect;
     }
 }

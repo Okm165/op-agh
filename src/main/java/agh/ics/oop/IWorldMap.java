@@ -47,7 +47,7 @@ public interface IWorldMap {
      * @param index The index in list to return
      * @return Animal at index.
      */
-    Animal get(int index);
+    Animal getAnimal(int index);
 
     /**
      * @return number of animals on map.

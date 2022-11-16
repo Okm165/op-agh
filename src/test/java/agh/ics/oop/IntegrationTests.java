@@ -2,55 +2,37 @@ package agh.ics.oop;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class IntegrationTests {
+
     @Test
-    void movingTest1() {
+        //  animals leaving map is forbidden
+    void animalsKeptInMapBoundaries() {
         // given
-        String[] args = {"f", "right", "backward", "b", "b", "left", "forward", "f", "f"};
+        String[] args = {"l", "b", "f", "b", "f", "b", "f", "b"};
+        IWorldMap map = new RectangularMap(4, 4);
+        Vector2d[] initial_positions = {new Vector2d(0, 0), new Vector2d(1, 1)};
         // when
-        MoveDirection[] directions = OptionsParser.parse(args);
-        Animal animal = new Animal();
-        for (MoveDirection move : directions){
-            animal.move(move);
-        }
+        SimulationEngine engine = new SimulationEngine(OptionsParser.parse(args), map, initial_positions);
+        engine.run();
         // then
-        assertArrayEquals(new MoveDirection[] {
-                MoveDirection.FORWARD,
-                MoveDirection.RIGHT,
-                MoveDirection.BACKWARD,
-                MoveDirection.BACKWARD,
-                MoveDirection.BACKWARD,
-                MoveDirection.LEFT,
-                MoveDirection.FORWARD,
-                MoveDirection.FORWARD,
-                MoveDirection.FORWARD,
-        }, directions);
-        assertTrue(animal.isAt(new Vector2d(0,4)));
-        assertEquals("position: (0,4), orientation: NORTH", animal.toString());
+        assertTrue(map.isOccupied(new Vector2d(0, 0)));
+        assertTrue(map.isOccupied(new Vector2d(1, 0)));
     }
 
     @Test
-    void movingTest2() {
+        //  only one animal can occupy given cell
+    void animalsOccupationExclusion() {
         // given
-        String[] args = {"r","f","f","f"};
+        String[] args = {"f", "l", "r", "l", "f", "l", "f", "l"};
+        IWorldMap map = new RectangularMap(4, 4);
+        Vector2d[] initial_positions = {new Vector2d(0, 0), new Vector2d(1, 1)};
         // when
-        MoveDirection[] directions = OptionsParser.parse(args);
-        Animal animal = new Animal();
-        for (MoveDirection move : directions){
-            animal.move(move);
-        }
+        SimulationEngine engine = new SimulationEngine(OptionsParser.parse(args), map, initial_positions);
+        engine.run();
         // then
-        assertArrayEquals(new MoveDirection[] {
-                MoveDirection.RIGHT,
-                MoveDirection.FORWARD,
-                MoveDirection.FORWARD,
-                MoveDirection.FORWARD,
-        }, directions);
-        assertTrue(animal.isAt(new Vector2d(4,2)));
-        assertEquals("position: (4,2), orientation: EAST", animal.toString());
+        assertTrue(map.isOccupied(new Vector2d(0, 1)));
+        assertTrue(map.isOccupied(new Vector2d(1, 1)));
     }
 }

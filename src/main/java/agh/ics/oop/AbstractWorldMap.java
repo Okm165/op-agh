@@ -6,12 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver, Comparable {
+public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
     protected final ArrayList<Animal> animals = new ArrayList<>();
     protected final Map<Vector2d, IMapElement> mapElements = new HashMap<>();
-    public BoundingRect rect;
-
-    abstract public boolean canMoveTo(@NotNull Vector2d position);
 
     public boolean place(@NotNull Animal animal) {
         Vector2d pos = animal.getPosition();
@@ -29,11 +26,11 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
     public Object objectAt(Vector2d position) {
         return mapElements.get(position);
-    };
+    }
 
-    public Animal getAnimal(int index) { return this.animals.get(index); };
+    public Animal getAnimal(int index) { return this.animals.get(index); }
 
-    public int numOfAnimals() { return this.animals.size(); };
+    public int numOfAnimals() { return this.animals.size(); }
 
     abstract public BoundingRect boundingRect();
 
@@ -45,12 +42,7 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
 
     public String toString() {
-        this.rect = boundingRect();
-        return new MapVisualizer(this).draw(rect.lowerLeftCorner, rect.upperRightCorner);
-    }
-
-    @Override
-    public int compareTo(@NotNull Object o) {
-        return this.hashCode() - o.hashCode();
+        BoundingRect rect = boundingRect();
+        return new MapVisualizer(this).draw(rect.lowerLeft(), rect.upperRight());
     }
 }

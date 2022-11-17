@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class OptionsParser {
     public static MoveDirection[] parse(String[] args) {
@@ -11,6 +12,6 @@ public class OptionsParser {
                     case "l", "left" -> MoveDirection.LEFT;
                     default -> null;
                 }
-        ).filter(x -> x != null).toArray(MoveDirection[]::new);
+        ).filter(Objects::nonNull).toArray(MoveDirection[]::new);
     }
 }

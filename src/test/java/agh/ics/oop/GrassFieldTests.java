@@ -58,8 +58,8 @@ public class GrassFieldTests {
             upperRightCorner = upperRightCorner.upperRight(pos);
         }
         // then
-        assertTrue(map.rect.lowerLeftCorner.equals(lowerLeftCorner));
-        assertTrue(map.rect.upperRightCorner.equals(upperRightCorner));
+        assertTrue(map.boundingRect().lowerLeft().equals(lowerLeftCorner));
+        assertTrue(map.boundingRect().upperRight().equals(upperRightCorner));
     }
 
     @Test

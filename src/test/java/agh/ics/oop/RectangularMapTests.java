@@ -53,8 +53,8 @@ public class RectangularMapTests {
         Vector2d origin = new Vector2d(0,0);
         Vector2d boundary = new Vector2d(10,11);
         // then
-        assertEquals(map.rect.lowerLeftCorner, origin);
-        assertEquals(map.rect.upperRightCorner, boundary);
+        assertEquals(map.boundingRect().lowerLeft(), origin);
+        assertEquals(map.boundingRect().upperRight(), boundary);
     }
 
     @Test

@@ -1,49 +1,45 @@
 package agh.ics.oop;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
-import java.util.stream.Stream;
+import java.util.Collections;
 
 public class GrassField extends AbstractWorldMap{
 
-    private final int grassnum;
-
     public GrassField(int grassNum) {
-        this.grassnum = grassNum;
-        this.randomizeGrass();
-        this.rect = new BoundingRect(new Vector2d(0,0), new Vector2d(0,0));
+        this.randomizeGrass(grassNum);
     }
 
     public boolean canMoveTo(Vector2d position) {
         return !(objectAt(position) instanceof Animal);
     }
 
-    private void randomizeGrass() {
-        int range = (int) Math.round(Math.sqrt(this.grassnum *10));
-        int cnt = this.grassnum;
-        while (cnt > 0) {
-            int rx = getRandomNumber(range);
-            int ry = getRandomNumber(range);
-            Vector2d pos = new Vector2d(rx, ry);
-            if (!isOccupied(pos)) {
-                this.mapElements.put(pos, new Grass(pos));
-                cnt -= 1;
-            }
-        }
-    }
-
-    private int getRandomNumber(int range) {
-        return (int) Math.round(((Math.random() * range)));
+    private void randomizeGrass(int grassNum) {
+        int range = (int) Math.round(Math.sqrt(grassNum * 10));
+        Vector2d topRight = new Vector2d(range, range);
+        ArrayList<Vector2d> freeSpaces = new ArrayList<>(this.mapElements.keySet().stream().filter(pos -> pos.precedes(topRight) && this.mapElements.get(pos) == null).toList());
+        Collections.shuffle(freeSpaces);
+        freeSpaces.stream().limit(grassNum).forEach(pos -> this.mapElements.put(pos, new Grass(pos)));
+//        int cnt = grassNum;
+//        while (cnt > 0) {
+//            int rx = getRandomNumber(range);
+//            int ry = getRandomNumber(range);
+//            Vector2d pos = new Vector2d(rx, ry);
+//            if (!isOccupied(pos)) {
+//                this.mapElements.put(pos, new Grass(pos));
+//                cnt -= 1;
+//            }
+//        }
     }
 
     public BoundingRect boundingRect() {
-        rect.lowerLeftCorner = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        rect.upperRightCorner = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
-        this.mapElements.forEach((pos, elem) -> {
-            rect.lowerLeftCorner = rect.lowerLeftCorner.lowerLeft(pos);
-            rect.upperRightCorner = rect.upperRightCorner.upperRight(pos);
-        });
-        return rect;
+        Vector2d lowerLeftCorner = new Vector2d(Integer.MAX_VALUE, Integer.MAX_VALUE);
+        Vector2d upperRightCorner = new Vector2d(Integer.MIN_VALUE, Integer.MIN_VALUE);
+
+        for (Vector2d pos : this.mapElements.keySet()) {
+            lowerLeftCorner = lowerLeftCorner.lowerLeft(pos);
+            upperRightCorner = upperRightCorner.upperRight(pos);
+        }
+
+        return new BoundingRect(lowerLeftCorner, upperRightCorner);
     }
 }

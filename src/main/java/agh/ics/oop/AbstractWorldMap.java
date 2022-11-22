@@ -9,15 +9,14 @@ import java.util.Map;
 public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
     protected final ArrayList<Animal> animals = new ArrayList<>();
     protected final Map<Vector2d, IMapElement> mapElements = new HashMap<>();
+    protected final MapBoundary mapBoundary = new MapBoundary();
 
-    public boolean place(@NotNull Animal animal) {
+    public void place(@NotNull Animal animal) {
         Vector2d pos = animal.getPosition();
-        if (canMoveTo(pos)) {
-            this.animals.add(animal);
-            this.mapElements.put(animal.getPosition(), animal);
-            return true;
-        }
-        return false;
+        if (!canMoveTo(pos)) throw new IllegalArgumentException("Placing failed at: "+pos+" space already occupied!");
+        this.animals.add(animal);
+        this.mapElements.put(pos, animal);
+        this.mapBoundary.place(pos);
     }
 
     public boolean isOccupied(Vector2d position) {
@@ -30,19 +29,25 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
     public Animal getAnimal(int index) { return this.animals.get(index); }
 
+    @Override
+    public boolean canMoveTo(Vector2d position) {
+        return !(objectAt(position) instanceof Animal);
+    }
+
     public int numOfAnimals() { return this.animals.size(); }
 
-    abstract public BoundingRect boundingRect();
+    public BoundingRect boundingRect() {
+        return mapBoundary.boundingRect();
+    }
 
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
         if (!isOccupied(oldPosition) || !canMoveTo(newPosition)) return;
-        IMapElement element = this.mapElements.remove(oldPosition);
-        this.mapElements.put(newPosition, element);
+        this.mapElements.put(newPosition, this.mapElements.remove(oldPosition));
+        this.mapBoundary.positionChanged(oldPosition, newPosition);
     }
 
     public String toString() {
-        BoundingRect rect = boundingRect();
-        return new MapVisualizer(this).draw(rect.lowerLeft(), rect.upperRight());
+        return new MapVisualizer(this).draw(this.mapBoundary.lowerLeft(), this.mapBoundary.upperRight());
     }
 }

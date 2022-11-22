@@ -15,6 +15,7 @@ public class SimulationEngine implements IEngine {
         for (Vector2d initialPosition : initialPositions) {
             Animal animal = new Animal(map, initialPosition);
             animal.addObserver(map);
+//            if (map instanceof GrassField) animal.addObserver(map.mapBoundary);
             map.place(animal);
         }
     }

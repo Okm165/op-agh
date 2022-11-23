@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
     protected final ArrayList<Animal> animals = new ArrayList<>();
@@ -49,5 +50,9 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
 
     public String toString() {
         return new MapVisualizer(this).draw(this.mapBoundary.lowerLeft(), this.mapBoundary.upperRight());
+    }
+
+    public Stream<IMapElement> mapElements(){
+        return this.mapElements.values().stream();
     }
 }

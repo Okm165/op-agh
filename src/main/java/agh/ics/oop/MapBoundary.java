@@ -21,15 +21,12 @@ public class MapBoundary implements IPositionChangeObserver{
         x.add(newPosition.x);
         y.add(newPosition.y);
     }
-
     public Vector2d lowerLeft() {
         return new Vector2d(x.first(), y.first());
     }
-
     public  Vector2d upperRight() {
         return new Vector2d(x.last(), y.last());
     }
-
     public BoundingRect boundingRect() {
         return new BoundingRect(this.lowerLeft(), this.upperRight());
     }

@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.util.stream.IntStream;
@@ -23,15 +24,15 @@ public class App extends Application {
     private AbstractWorldMap map;
 
     public void init() {
-        //  MoveDirection[] directions = OptionsParser.parse(getParameters().getRaw().toArray(new String[0]));
+        MoveDirection[] directions = OptionsParser.parse(getParameters().getRaw().toArray(new String[0]));
         this.map = new GrassField(10);
+        Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 2)};
+        IEngine engine = new SimulationEngine(directions, this.map, positions);
+        engine.run();
         this.updateColRowDimensions();
         this.initGridPane();
         this.draw();
-        //  Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 2)};
         System.out.println(map);
-        //  IEngine engine = new SimulationEngine(directions, map, positions);
-        //  engine.run();
     }
 
     private void initGridPane(){
@@ -54,10 +55,15 @@ public class App extends Application {
         return this.map.boundingRect().upperRight().y-y+1;
     }
 
+    private Vector2d convCoordinates(Vector2d pos) {
+        return new Vector2d(convToCol(pos.x), convToRow(pos.y));
+    }
+
     private void addLabel(String text, int col, int row) {
-        Label node = new Label(text);
-        this.gridPane.add(node, col, row);
-        GridPane.setHalignment(node, HPos.CENTER);
+        Label label = new Label(text);
+        this.gridPane.add(label, col, row);
+        GridPane.setHalignment(label, HPos.CENTER);
+        label.setFont(new Font(20));
     }
 
     private void updateColRowDimensions() {
@@ -71,7 +77,7 @@ public class App extends Application {
         }
         if (numOfRows != this.numOfRows) {
             this.numOfRows = numOfRows;
-            int rowHeight = WIDTH/numOfRows;
+            int rowHeight = HEIGHT/numOfRows;
             this.gridPane.getRowConstraints().clear();
             IntStream.range(0, numOfRows).forEach(i -> this.gridPane.getRowConstraints().add(new RowConstraints(rowHeight)));
         }

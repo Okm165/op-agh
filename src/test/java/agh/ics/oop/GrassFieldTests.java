@@ -51,8 +51,8 @@ public class GrassFieldTests {
         Animal anim1 = new Animal(map, anim1_pos);
         // when
         map.place(anim1);
-        Vector2d lowerLeftCorner = map.animals.get(0).getPosition();
-        Vector2d upperRightCorner = map.animals.get(0).getPosition();
+        Vector2d lowerLeftCorner = anim1.getPosition();
+        Vector2d upperRightCorner = anim1.getPosition();
         for (Vector2d pos : map.mapElements.keySet()) {
             lowerLeftCorner = lowerLeftCorner.lowerLeft(pos);
             upperRightCorner = upperRightCorner.upperRight(pos);

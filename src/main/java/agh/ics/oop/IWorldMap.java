@@ -40,17 +40,4 @@ public interface IWorldMap {
      * @return Object or null if the position is not occupied.
      */
     Object objectAt(Vector2d position);
-
-    /**
-     * Return an object at a given index.
-     *
-     * @param index The index in list to return
-     * @return Animal at index.
-     */
-    Animal getAnimal(int index);
-
-    /**
-     * @return number of animals on map.
-     */
-    int numOfAnimals();
 }

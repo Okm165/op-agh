@@ -1,21 +1,21 @@
 package agh.ics.oop;
 
+import java.util.ArrayList;
+
 public class SimulationEngine implements IEngine {
 
     private final MoveDirection[] directions;
-    private final AbstractWorldMap map;
+    private final ArrayList<Animal> animalBuf = new ArrayList<>();
 
-    public SimulationEngine(MoveDirection[] directions, AbstractWorldMap map, Vector2d[] initialPositions) {
-        this.map = map;
+    public SimulationEngine(MoveDirection[] directions, IWorldMap map, Vector2d[] initialPositions) {
         this.directions = directions;
         placeAnimals(map, initialPositions);
     }
 
-    private static void placeAnimals(AbstractWorldMap map, Vector2d[] initialPositions) {
+    private void placeAnimals(IWorldMap map, Vector2d[] initialPositions) {
         for (Vector2d initialPosition : initialPositions) {
             Animal animal = new Animal(map, initialPosition);
-            animal.addObserver(map);
-//            if (map instanceof GrassField) animal.addObserver(map.mapBoundary);
+            animalBuf.add(animal);
             map.place(animal);
         }
     }
@@ -24,8 +24,8 @@ public class SimulationEngine implements IEngine {
     public void run() {
         int index = 0;
         for (MoveDirection direction : this.directions) {
-            map.getAnimal(index).move(direction);
-            index = (index + 1) % this.map.numOfAnimals();
+            animalBuf.get(index).move(direction);
+            index = (index + 1) % this.animalBuf.size();
         }
     }
 }

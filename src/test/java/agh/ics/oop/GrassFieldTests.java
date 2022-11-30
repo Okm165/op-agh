@@ -53,17 +53,13 @@ public class GrassFieldTests {
         map.boundingRect();
         Vector2d lowerLeftCorner = map.animals.get(0).getPosition();
         Vector2d upperRightCorner = map.animals.get(0).getPosition();
-        for (Animal animal : map.animals) {
-            lowerLeftCorner = lowerLeftCorner.lowerLeft(animal.getPosition());
-            upperRightCorner = upperRightCorner.upperRight(animal.getPosition());
-        }
-        for (Grass grass : map.grass) {
-            lowerLeftCorner = lowerLeftCorner.lowerLeft(grass.getPosition());
-            upperRightCorner = upperRightCorner.upperRight(grass.getPosition());
+        for (Vector2d pos : map.mapElements.keySet()) {
+            lowerLeftCorner = lowerLeftCorner.lowerLeft(pos);
+            upperRightCorner = upperRightCorner.upperRight(pos);
         }
         // then
-        assertTrue(map.rect.lowerLeftCorner.equals(lowerLeftCorner));
-        assertTrue(map.rect.upperRightCorner.equals(upperRightCorner));
+        assertTrue(map.boundingRect().lowerLeft().equals(lowerLeftCorner));
+        assertTrue(map.boundingRect().upperRight().equals(upperRightCorner));
     }
 
     @Test

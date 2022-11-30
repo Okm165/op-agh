@@ -11,7 +11,7 @@ public class IntegrationTests {
     void animalsKeptInMapBoundaries() {
         // given
         String[] args = {"l", "b", "f", "b", "f", "b", "f", "b"};
-        IWorldMap map = new RectangularMap(4, 4);
+        AbstractWorldMap map = new RectangularMap(4, 4);
         Vector2d[] initial_positions = {new Vector2d(0, 0), new Vector2d(1, 1)};
         // when
         SimulationEngine engine = new SimulationEngine(OptionsParser.parse(args), map, initial_positions);
@@ -26,7 +26,7 @@ public class IntegrationTests {
     void animalsOccupationExclusion() {
         // given
         String[] args = {"f", "l", "r", "l", "f", "l", "f", "l"};
-        IWorldMap map = new RectangularMap(4, 4);
+        AbstractWorldMap map = new RectangularMap(4, 4);
         Vector2d[] initial_positions = {new Vector2d(0, 0), new Vector2d(1, 1)};
         // when
         SimulationEngine engine = new SimulationEngine(OptionsParser.parse(args), map, initial_positions);

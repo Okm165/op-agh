@@ -17,7 +17,7 @@ public class Animal implements IMapElement {
     }
 
     @Override
-    public Vector2d getPosition() {
+    public Vector2d position() {
         return this.position;
     }
 
@@ -36,17 +36,32 @@ public class Animal implements IMapElement {
         };
     }
 
+    @Override
+    public String toResource() {
+        return "src/main/resources/" + switch (this.orientation) {
+            case NORTH -> "up.png";
+            case EAST -> "right.png";
+            case SOUTH -> "down.png";
+            case WEST -> "left.png";
+        };
+    }
+
     public void move(MoveDirection direction) {
         Vector2d newPos = this.position;
+        MapDirection newOrientation = this.orientation;
         switch (direction) {
-            case RIGHT -> this.orientation = this.orientation.next();
-            case LEFT -> this.orientation = this.orientation.previous();
+            case RIGHT -> newOrientation = this.orientation.next();
+            case LEFT -> newOrientation = this.orientation.previous();
             case FORWARD -> newPos = this.position.add(this.orientation.toUnitVector());
             case BACKWARD -> newPos = this.position.subtract(this.orientation.toUnitVector());
         }
         if (this.map.canMoveTo(newPos)) {
             this.positionChanged(this.position, newPos);
             this.position = newPos;
+        }
+        if (!this.orientation.equals(newOrientation)) {
+            this.orientationChanged(this.orientation, newOrientation);
+            this.orientation = newOrientation;
         }
     }
 
@@ -59,5 +74,11 @@ public class Animal implements IMapElement {
     private void positionChanged(Vector2d oldPosition, Vector2d newPosition){
         this.observerSet.forEach(obs -> obs.positionChanged(oldPosition, newPosition));
     }
-
+    private void orientationChanged(MapDirection oldOrientation, MapDirection newOrientation){
+        this.observerSet.forEach(obs -> obs.orientationChanged(oldOrientation, newOrientation));
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.position, this.orientation);
+    }
 }

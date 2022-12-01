@@ -3,8 +3,6 @@ package agh.ics.oop;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import static java.lang.Integer.signum;
-
 public class MapBoundary implements IPositionChangeObserver{
 
     private final SortedSet<Integer> x = new TreeSet<>();

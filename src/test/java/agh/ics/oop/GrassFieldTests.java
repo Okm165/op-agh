@@ -2,8 +2,6 @@ package agh.ics.oop;
 
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GrassFieldTests {
@@ -51,8 +49,8 @@ public class GrassFieldTests {
         Animal anim1 = new Animal(map, anim1_pos);
         // when
         map.place(anim1);
-        Vector2d lowerLeftCorner = anim1.getPosition();
-        Vector2d upperRightCorner = anim1.getPosition();
+        Vector2d lowerLeftCorner = anim1.position();
+        Vector2d upperRightCorner = anim1.position();
         for (Vector2d pos : map.mapElements.keySet()) {
             lowerLeftCorner = lowerLeftCorner.lowerLeft(pos);
             upperRightCorner = upperRightCorner.upperRight(pos);

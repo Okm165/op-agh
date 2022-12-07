@@ -6,7 +6,7 @@ public interface IMapElement {
      *
      * @return Vector2d position.
      */
-    Vector2d getPosition();
+    Vector2d position();
     /**
      * Check if map element is at position.
      *
@@ -20,4 +20,6 @@ public interface IMapElement {
      * @return String representation.
      */
     String toString();
+
+    String toResource();
 }

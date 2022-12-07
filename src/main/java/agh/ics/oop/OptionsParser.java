@@ -1,7 +1,6 @@
 package agh.ics.oop;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public class OptionsParser {
     public static MoveDirection[] parse(String[] args) {
@@ -10,8 +9,8 @@ public class OptionsParser {
                     case "b", "backward" -> MoveDirection.BACKWARD;
                     case "r", "right" -> MoveDirection.RIGHT;
                     case "l", "left" -> MoveDirection.LEFT;
-                    default -> null;
+                    default -> throw new IllegalArgumentException(arg + " is not legal move specification");
                 }
-        ).filter(Objects::nonNull).toArray(MoveDirection[]::new);
+        ).toArray(MoveDirection[]::new);
     }
 }

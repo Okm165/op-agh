@@ -8,6 +8,7 @@ public class Animal implements IMapElement {
     private Vector2d position;
     private MapDirection orientation = MapDirection.NORTH;
     private final IWorldMap map;
+    // using set for efficient removal of observers
     private final SortedSet<IPositionChangeObserver> observerSet = new TreeSet<>();
 
     public Animal(IWorldMap map, Vector2d initialPosition) {

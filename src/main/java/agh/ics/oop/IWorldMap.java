@@ -21,7 +21,7 @@ public interface IWorldMap {
      * @param animal The animal to place on the map.
      * @return True if the animal was placed. The animal cannot be placed if the map is already occupied.
      */
-    boolean place(Animal animal);
+    void place(Animal animal);
 
     /**
      * Return true if given position on the map is occupied. Should not be
@@ -40,17 +40,4 @@ public interface IWorldMap {
      * @return Object or null if the position is not occupied.
      */
     Object objectAt(Vector2d position);
-
-    /**
-     * Return an object at a given index.
-     *
-     * @param index The index in list to return
-     * @return Animal at index.
-     */
-    Animal getAnimal(int index);
-
-    /**
-     * @return number of animals on map.
-     */
-    int numOfAnimals();
 }
